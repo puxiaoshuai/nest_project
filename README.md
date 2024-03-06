@@ -22,3 +22,26 @@ src/
 ├── config/
 │   ├── configuration.ts         # 配置定义
 │   └── ...
+
+### 常用命令
+nest new 名称 创建项目
+nest -h/--help 帮助
+nest g co 名称 创建控制器
+nest g s 名称 创建服务
+nest g mi 名称 创建中间件
+nest g pi 名称 创建管道
+nest g mo 名称 创建模块
+nest g gu 名称 创建守卫
+
+nest g resource xxx 生成整套的curd
+
+### 实现一个代办事项的curd
+nest g resource todo
+安装插件
+npm install @nestjs/typeorm typeorm mysql
+npm install class-validator class-transformer
+
+####错误
+ERROR [TypeOrmModule] Unable to connect to the database. Retrying (1)… Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+
+问题在于 Node.js (mysql) 尚不支持 MySQL 8 这种新的默认身份验证方法。
