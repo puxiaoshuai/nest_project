@@ -16,30 +16,36 @@ export class TodoListController {
   constructor(private readonly todoListService: TodoListService) {}
 
   @Post()
-  create(@Body() createTodoListDto: CreateTodoListDto) {
-    return this.todoListService.create(createTodoListDto);
+  async create(@Body() createTodoListDto: CreateTodoListDto) {
+    //失败的话，如何自定义异常？
+    return await this.todoListService.create(createTodoListDto);
   }
 
   @Get()
-  findAll() {
-    return this.todoListService.findAll();
+  async findAll() {
+    const list = await this.todoListService.findAll();
+    return {
+      data: list,
+      message: '成功',
+      code: 200,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoListService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.todoListService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateTodoListDto: UpdateTodoListDto,
   ) {
-    return this.todoListService.update(+id, updateTodoListDto);
+    return await this.todoListService.update(+id, updateTodoListDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoListService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.todoListService.remove(+id);
   }
 }

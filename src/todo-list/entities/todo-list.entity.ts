@@ -13,6 +13,6 @@ export class Todo {
   title: string;
   @Column()
   description: string;
-  @Column()
+  @Column({ default: TodoStatus.TODO })
   status: number;
 }

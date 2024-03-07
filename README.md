@@ -42,6 +42,8 @@ npm install @nestjs/typeorm typeorm mysql
 npm install class-validator class-transformer
 
 ####错误
-ERROR [TypeOrmModule] Unable to connect to the database. Retrying (1)… Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
-
-问题在于 Node.js (mysql) 尚不支持 MySQL 8 这种新的默认身份验证方法。
+nest使用typeorm连接mysql, 创建新数据时，提示 Field 'status' doesn't have a default value
+```
+@Column({ default: TodoStatus.TODO })
+  status: number;
+```
