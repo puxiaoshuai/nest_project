@@ -1,6 +1,6 @@
 //nestjs/typeorm中导入
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import {Todo} from '../todo-list/entities/todo-list.entity'
+import { Todo } from '../todo-list/entities/todo-list.entity';
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: '127.0.0.1',

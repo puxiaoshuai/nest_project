@@ -34,7 +34,7 @@ export class TodoListService {
 
   async findAll(query): Promise<any> {
     //进行分页处理
-    const todoQuery = this.todoRepository.createQueryBuilder("post");
+    const todoQuery = this.todoRepository.createQueryBuilder('post');
     const count = await todoQuery.getCount();
     const { pageNum = 1, pageSize = 2, ...params } = query;
     todoQuery.limit(pageSize);
@@ -44,15 +44,15 @@ export class TodoListService {
   }
 
   async findOne(id: number): Promise<Todo> {
-    const existToDo = await this.todoRepository.findOneBy({id});
+    const existToDo = await this.todoRepository.findOneBy({ id });
     if (!existToDo) {
       throw new HttpException(`id为${id}的文章不存在`, 401);
     }
-    return existToDo
+    return existToDo;
   }
 
   async update(id: number, updateTodoListDto: UpdateTodoListDto) {
-    const existToDo = await this.todoRepository.findOneBy({id});
+    const existToDo = await this.todoRepository.findOneBy({ id });
     if (!existToDo) {
       throw new HttpException(`id为${id}的文章不存在`, 401);
     }
@@ -65,7 +65,7 @@ export class TodoListService {
   }
 
   async remove(id: number) {
-    const existToDo = await this.todoRepository.findOneBy({id});
+    const existToDo = await this.todoRepository.findOneBy({ id });
     if (!existToDo) {
       throw new HttpException(`id为${id}的文章不存在`, 401);
     }

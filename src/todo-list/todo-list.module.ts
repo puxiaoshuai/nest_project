@@ -8,10 +8,9 @@ import { Todo } from './entities/todo-list.entity';
   controllers: [TodoListController],
   providers: [TodoListService],
 })
-export class TodoListModule implements OnModuleInit,OnApplicationBootstrap {
+export class TodoListModule implements OnModuleInit, OnApplicationBootstrap {
   onModuleInit() {
-      console.log('todo-module进行初始化');
-      
+    console.log('todo-module进行初始化');
   }
   onApplicationBootstrap() {
     console.log('todo-module- onApplicationBootstrap');
