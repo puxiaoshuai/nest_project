@@ -19,24 +19,31 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @ApiTags('代办')
 @Controller('todo')
 export class TodoListController {
-  constructor(private readonly todoListService: TodoListService) {}
+  constructor(private readonly todoListService: TodoListService) { }
   @ApiOperation({ summary: '创建代办事项' })
   @Post()
   async create(@Body() createTodoListDto: CreateTodoListDto) {
-    //失败的话，如何自定义异常？
-    return await this.todoListService.create(createTodoListDto);
+    //失败的话，如何自定义异常？ httperror.interceptor.ts统一捕获\
+    const create = await this.todoListService.create(createTodoListDto);
+    return {
+      data: create
+    }
   }
   @ApiOperation({ summary: '获取所有的代办事项' })
   @Get()
   async findAll(@Body() params) {
     const list = await this.todoListService.findAll(params);
-    return list;
+    return {
+      data: list
+    };
   }
   @ApiOperation({ summary: '通过id获取代办事项' })
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const todo = await this.todoListService.findOne(+id);
-    return !!todo ? todo : '未查询到内容';
+    return {
+      data: todo
+    };
   }
   //Put  幂等， 实体是直接替换
   //patch，实体部分进行更新
@@ -46,11 +53,17 @@ export class TodoListController {
     @Param('id') id: string,
     @Body() updateTodoListDto: UpdateTodoListDto,
   ) {
-    return await this.todoListService.update(+id, updateTodoListDto);
+    await this.todoListService.update(+id, updateTodoListDto);
+    return {
+      message:"更新成功"
+    }
   }
   @ApiOperation({ summary: '删除代办事项' })
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.todoListService.remove(+id);
+     await this.todoListService.remove(+id);
+     return {
+      message:"删除成功"
+     }
   }
 }
