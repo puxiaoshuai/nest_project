@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { Repository } from 'typeorm';
 import { Todo, TodoStatus } from './entities/todo-list.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+
+/**
+ * 访问数据库的服务，提供增删改查的内容
+ */
 @Injectable()
 export class TodoListService {
   constructor(
@@ -13,26 +17,46 @@ export class TodoListService {
 
   //传递提交的参数
   async create(createTodoListDto: CreateTodoListDto): Promise<Todo> {
-    console.log('xxx',createTodoListDto);
-    
     const { title, description } = createTodoListDto;
+    //如此每个都去判断不太现实，可在dao中进行验证
+    if (!title || !description) {
+      throw new HttpException('缺少必要参数', 401);
+    }
+    const currentTodo = this.todoRepository.findOne({ where: { title } });
+    if (currentTodo) {
+      throw new HttpException('已存在相同标题的代办项', 401);
+    }
     const todo = new Todo();
     todo.title = title;
     todo.description = description;
     return this.todoRepository.save(todo);
   }
 
-  async findAll(): Promise<Todo[]> {
-    return this.todoRepository.find();
+  async findAll(query): Promise<any> {
+    //进行分页处理
+    const todoQuery = this.todoRepository.createQueryBuilder("post");
+    const count = await todoQuery.getCount();
+    console.log('数量',count);
+    const { pageNum = 1, pageSize = 2, ...params } = query;
+    todoQuery.limit(pageSize);
+    todoQuery.offset(pageSize * (pageNum - 1));
+    const posts = await todoQuery.getMany();
+    return { list: posts, total: count };
   }
 
   async findOne(id: number): Promise<Todo> {
-    return this.todoRepository.findOneBy({
-      id,
-    });
+    const existToDo = await this.todoRepository.findOneBy({id});
+    if (!existToDo) {
+      throw new HttpException(`id为${id}的文章不存在`, 401);
+    }
+    return existToDo
   }
 
   async update(id: number, updateTodoListDto: UpdateTodoListDto) {
+    const existToDo = await this.todoRepository.findOneBy({id});
+    if (!existToDo) {
+      throw new HttpException(`id为${id}的文章不存在`, 401);
+    }
     return this.todoRepository.update(id, {
       ...updateTodoListDto,
       status: updateTodoListDto.status || TodoStatus.TODO,
@@ -40,6 +64,10 @@ export class TodoListService {
   }
 
   async remove(id: number) {
+    const existToDo = await this.todoRepository.findOneBy({id});
+    if (!existToDo) {
+      throw new HttpException(`id为${id}的文章不存在`, 401);
+    }
     return this.todoRepository.delete({ id });
   }
 }

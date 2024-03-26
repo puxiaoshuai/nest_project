@@ -47,3 +47,30 @@ nest使用typeorm连接mysql, 创建新数据时，提示 Field 'status' doesn't
 @Column({ default: TodoStatus.TODO })
   status: number;
 ```
+#### provider的几种注入方式
+参考： https://juejin.cn/post/7340127788053626917?searchId=2024030815363204D53434F9CC081FABEB#heading-2
+
+1.默认的class注入
+```
+@Injectable()
+export class TodoListService {}
+在modules中使用
+...
+ providers: [TodoListService],
+```
+2.使用 useClass的方式，[当你想要注入一个类，但是使用不同于通常实例化的类时，可以使用 useClass。]
+```
+providers:[
+  {
+    provider: TodoListService,
+    useClass: process.env.NODE_ENV === 'development' ? TodoListMockService : TodoListService,
+  }
+]
+```
+
+#### 装饰器的使用
+@module这是一个类装饰器，用于定义一个模块。
+@controller是一个类装饰器，用于定义一个控制器,处理传入的请求和返回响应
+@Injectable是一个类装饰器，用于定义一个 服务提供者，可以被注入到控制器或其他服务中
+
+#### 请求参数
