@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 export enum TodoStatus {
   TODO = 0, // 待完成
@@ -16,10 +21,9 @@ export class Todo {
   description: string;
   @Column({ default: TodoStatus.TODO })
   status: number;
-
   //如何返回时间搓？
-  @Column({type:'timestamp',default:()=>'CURRENT_TIMESTAMP'})
-  ctime: number
-  @Column({type:'timestamp',default:()=>'CURRENT_TIMESTAMP'})
-  utime: number
+  @Column({type:"bigint"})
+  ctime: number;
+  @Column({type:"bigint"})
+  utime: number;
 }

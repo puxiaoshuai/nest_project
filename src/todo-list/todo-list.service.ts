@@ -23,9 +23,12 @@ export class TodoListService {
     if (currentTodo) {
       throw new HttpException('已存在相同标题的代办项', 401);
     }
+    const currentTime = Math.floor(Date.now() / 1000);
     const todo = new Todo();
     todo.title = title;
     todo.description = description;
+    todo.ctime = currentTime;
+    todo.utime = currentTime;
     return this.todoRepository.save(todo);
   }
 
@@ -33,7 +36,6 @@ export class TodoListService {
     //进行分页处理
     const todoQuery = this.todoRepository.createQueryBuilder("post");
     const count = await todoQuery.getCount();
-    console.log('数量',count);
     const { pageNum = 1, pageSize = 2, ...params } = query;
     todoQuery.limit(pageSize);
     todoQuery.offset(pageSize * (pageNum - 1));
@@ -54,8 +56,10 @@ export class TodoListService {
     if (!existToDo) {
       throw new HttpException(`id为${id}的文章不存在`, 401);
     }
+    const currentTime = Math.floor(Date.now() / 1000);
     return this.todoRepository.update(id, {
       ...updateTodoListDto,
+      utime: currentTime,
       status: updateTodoListDto.status || TodoStatus.TODO,
     });
   }
