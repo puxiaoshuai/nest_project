@@ -18,11 +18,8 @@ export class TodoListService {
   //传递提交的参数
   async create(createTodoListDto: CreateTodoListDto): Promise<Todo> {
     const { title, description } = createTodoListDto;
-    //如此每个都去判断不太现实，可在dao中进行验证
-    if (!title || !description) {
-      throw new HttpException('缺少必要参数', 401);
-    }
-    const currentTodo = this.todoRepository.findOne({ where: { title } });
+    //如此每个都去判断不太现实，可在dao中进行验证 ,使用 classValidator进行相关校验
+    const currentTodo = await this.todoRepository.findOne({ where: { title } });
     if (currentTodo) {
       throw new HttpException('已存在相同标题的代办项', 401);
     }

@@ -73,4 +73,17 @@ providers:[
 @controller是一个类装饰器，用于定义一个控制器,处理传入的请求和返回响应
 @Injectable是一个类装饰器，用于定义一个 服务提供者，可以被注入到控制器或其他服务中
 
-#### 请求参数
+#### 遇到的问题 
+配置校验时：
+status must be a number conforming to the specified constraints
+配置：
+```
+app.useGlobalPipes(new ValidationPipe({
+    transform:true,
+    transformOptions:{
+      enableImplicitConversion:true
+    }
+  }));
+```
+
+
