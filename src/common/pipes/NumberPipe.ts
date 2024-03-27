@@ -7,7 +7,7 @@ import {
 export class NumberPipe implements PipeTransform {
   constructor() {}
 
-  transform(value: unknown, metadata: ArgumentMetadata) {
+  transform(value: any, metadata: ArgumentMetadata) {
     const type = typeof +value;
     if (type === 'number' && !isNaN(+value)) {
       return +value;

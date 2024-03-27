@@ -11,7 +11,9 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard } from '../common//guards/auth.guard';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { Roles } from '../common/decorator/role.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @Controller('user')
 export class UserController {
@@ -24,6 +26,8 @@ export class UserController {
 
   @Get()
   @UseGuards(AuthGuard)
+  @Roles(['admin'])
+  @UseGuards(RolesGuard)
   findAll(@Body() params) {
     return this.userService.findAll(params);
   }
