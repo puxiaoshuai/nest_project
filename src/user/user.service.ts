@@ -5,13 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) { }
+  ) {}
   async create(createUserDto: CreateUserDto) {
     const { username } = createUserDto;
     const user = await this.userRepository.findOne({ where: { username } });
@@ -26,8 +25,8 @@ export class UserService {
     await this.userRepository.save(newUser);
     return {
       data: null,
-      message:"注册成功"
-    }
+      message: '注册成功',
+    };
   }
 
   async findAll(query): Promise<any> {
@@ -38,7 +37,7 @@ export class UserService {
     userQuery.offset(pageSize * (pageNum - 1));
     const users = await userQuery.getMany();
     return {
-      data: { list: users, total: count }
+      data: { list: users, total: count },
     };
   }
 

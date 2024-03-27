@@ -14,6 +14,6 @@ export class CreateUserDto {
   @MinLength(6, { message: '密码长度6-10' })
   password: string;
 
-  ctime:number;
-  utime:number;
+  ctime: number;
+  utime: number;
 }

@@ -4,6 +4,7 @@ import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { Repository } from 'typeorm';
 import { Todo, TodoStatus } from './entities/todo-list.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SearchTodoListDto } from './dto/search.dto';
 
 /**
  * 访问数据库的服务，提供增删改查的内容
@@ -43,7 +44,8 @@ export class TodoListService {
     return { list: posts, total: count };
   }
 
-  async findOne(id: number): Promise<Todo> {
+  async findOne(search: SearchTodoListDto): Promise<Todo> {
+    const { id } = search;
     const existToDo = await this.todoRepository.findOneBy({ id });
     if (!existToDo) {
       throw new HttpException(`id为${id}的文章不存在`, 401);

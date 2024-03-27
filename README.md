@@ -85,8 +85,25 @@ app.useGlobalPipes(new ValidationPipe({
     }
   }));
 ```
-#### 2.Invalid schematic "resouce". Please, ensure that "resouce" exists in this collection.
+### Body,Param,Query
+Body 获取 post 传递相关内容
+param获取  url上 /id/1的内容
+Query 获取 get 从params传递的内容
 
 
+### pipe管道的作用
+https://nest.nodejs.cn/pipes
+1.将输入数据转换为所需的形式（例如，从字符串到整数）
+2.评估输入数据，如果有效，只需将其原样传递；否则抛出异常
+### 守卫
+守卫在所有中间件之后、任何拦截器或管道之前执行。
+// 守卫，  1 token验证的守卫， 2.角色权限的守卫，
+
+全局守卫之后，如何给部分进行 白名单配置呢？ 自定义装饰器，判断public内容
+https://nest.nodejs.cn/security/authentication#%E5%85%A8%E5%B1%80%E5%90%AF%E7%94%A8%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81
+
+角色守卫，如何来判断角色呢？
+自定义元数据 或者 使用 自定义装饰器
+https://nest.nodejs.cn/guards#%E4%B8%BA%E6%AF%8F%E4%B8%AA%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E8%AE%BE%E7%BD%AE%E8%A7%92%E8%89%B2
 
 
