@@ -21,6 +21,7 @@ export class User {
   username: string;
   @Column({ length: 40, default: '' })
   nickname: string;
+
   //密码加密有 60长度。 select: false 查询默认隐藏此列
   @Column({ length: 100, select: false })
   password: string;
@@ -38,6 +39,5 @@ export class User {
   @BeforeInsert()
   async encryptPwd() {
     this.password = await bcrypt.hashSync(this.password, 10);
-    console.log('获取的到密码', this.password);
   }
 }
