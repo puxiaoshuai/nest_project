@@ -34,8 +34,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
   @Post('login')
-  @UseGuards(AuthGuard('local'))
-  //login这里不用获取用户 username and password ,应该是直接在authGuard中获取校验了
+  @UseGuards(AuthGuard('local')) //这里使用local策略,返回token
+  //login这里不用获取用户 username and password ,应该是直接在AuthGuard中间件中获取
   login(@Req() req) {
     const user = req.user;
     const token = this.createToken({
@@ -49,7 +49,6 @@ export class UserController {
   }
 
   @Get()
-  // @UseGuards(AuthGuard)
   @Roles(['admin'])
   @UseGuards(RolesGuard)
   findAll(@Body() params) {

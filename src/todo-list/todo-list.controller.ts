@@ -13,12 +13,15 @@ import {
   HttpStatus,
   ParseIntPipe,
   HttpException,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { TodoListService } from './todo-list.service';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SearchTodoListDto } from './dto/search.dto';
+import { AuthGuard } from '@nestjs/passport';
 /**
  *  请参数的定义： param, url进行传参获取
  *   body body携带 x-www-form-urlencoded 格式的参数
@@ -37,13 +40,19 @@ export class TodoListController {
     };
   }
   @ApiOperation({ summary: '获取所有的代办事项' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Get()
-  async findAll(@Body() params) {
+  async findAll(@Body() params, @Req() req) {
+    //此处能获取到 jwt.stategy.ts中返回的user
+    console.log('req', req.user);
     const list = await this.todoListService.findAll(params);
     return {
       data: list,
     };
   }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Get('/list')
   @Redirect('https://www.baidu.com')
   async list() {
@@ -62,6 +71,8 @@ export class TodoListController {
   //   };
   // }
   @ApiOperation({ summary: '通过id获取代办事项' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async findOne(@Param('id') id: SearchTodoListDto) {
     const todo = await this.todoListService.findOne(id);
@@ -84,6 +95,8 @@ export class TodoListController {
   //Put  幂等， 实体是直接替换
   //patch，实体部分进行更新
   @ApiOperation({ summary: '更新代办事项' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -95,6 +108,8 @@ export class TodoListController {
     };
   }
   @ApiOperation({ summary: '删除代办事项' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.todoListService.remove(+id);

@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 
+//用户名+密码策略
 export class LocalStorage extends PassportStrategy(Strategy) {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
@@ -16,8 +17,6 @@ export class LocalStorage extends PassportStrategy(Strategy) {
     } as IStrategyOptions);
   }
   async validate(username: string, password: string): Promise<any> {
-    console.log('user', username);
-    console.log('password', password);
     const user = await this.userRepository
       .createQueryBuilder('user')
       .addSelect('user.password') //把密码暴露出来
@@ -32,6 +31,7 @@ export class LocalStorage extends PassportStrategy(Strategy) {
     if (!isMatch) {
       throw new BadRequestException('密码不正确');
     }
+    //密码校验成功后返回当前查询的用户，然后根据id，username进行 生成token
     return user;
   }
 }

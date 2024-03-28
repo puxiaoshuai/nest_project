@@ -40,9 +40,11 @@ export class UserService {
       data: { list: users, total: count },
     };
   }
-
   findOne(id: number) {
     return `This action returns a #${id} user`;
+  }
+  async getUser(user: any) {
+    return await this.userRepository.findOne({ where: { id: user.id } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
