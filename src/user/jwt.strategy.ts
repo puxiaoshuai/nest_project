@@ -8,7 +8,7 @@ import { UnauthorizedException } from '@nestjs/common';
 export class JwtStorage extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>, //需要注入，不能少
     private readonly userService: UserService,
   ) {
     super({

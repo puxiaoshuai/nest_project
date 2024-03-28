@@ -110,3 +110,8 @@ https://nest.nodejs.cn/security/authentication#%E5%85%A8%E5%B1%80%E5%90%AF%E7%94
 https://nest.nodejs.cn/guards#%E4%B8%BA%E6%AF%8F%E4%B8%AA%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E8%AE%BE%E7%BD%AE%E8%A7%92%E8%89%B2
 
 
+### jwt + 本地 守卫流程
+1.用户注册时，对password进行 bcryptjs 加密
+2.用户登录时，对password进行 bcryptjs 解密，然后和数据库中的password进行对比。成功返回user
+2.1在返回user的同时，使用 password.js  local策略 对 user(id,username,role)的信息提取，产生token
+3.使用 password.js 的jwt策略，对接口添加   @UseGuards(AuthGuard('jwt')) 守卫，内部会根据 token进行验证，如果验证成功，则返回user，并执行请求

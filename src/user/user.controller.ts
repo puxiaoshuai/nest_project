@@ -17,7 +17,8 @@ import { Roles } from '../common/decorators/role.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from './entities/user.entity';
+import { USER_ROLE, User } from './entities/user.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('user')
 export class UserController {
   constructor(
@@ -48,10 +49,11 @@ export class UserController {
     };
   }
 
+  @ApiBearerAuth()
+  @Roles([USER_ROLE.ROOT, USER_ROLE.VISITOR])
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get()
-  @Roles(['admin'])
-  @UseGuards(RolesGuard)
-  findAll(@Body() params) {
+  findAll(@Body() params, @Req() req) {
     return this.userService.findAll(params);
   }
 
