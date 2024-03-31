@@ -10,5 +10,5 @@ export const databaseConfig: TypeOrmModuleOptions = {
   database: 'todo',
   autoLoadEntities: true, // 使用这个配置自动导入entities
   connectorPackage: 'mysql2', // 指定用什么驱动包
-  synchronize: false, // 开发环境同步数据,有风险，最后设置为false
+  synchronize: true, // 开发环境同步数据,有风险，最后设置为false
 };

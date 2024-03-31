@@ -7,14 +7,22 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStorage } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStorage } from './jwt.strategy';
+import { Profile } from './entities/profile.entity';
+import { Logs } from '../logs/logs.entity';
+import { Roles } from '../roles/roles.entity';
 
 const jwtModule = JwtModule.register({
   secret: 'puxiaoshuai',
-  signOptions: { expiresIn: '1h' },
+  signOptions: { expiresIn: '1m' },
 });
 // imports,controllers,providers,exports的区别?
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), PassportModule, jwtModule],
+  //多个数据库实体导入
+  imports: [
+    TypeOrmModule.forFeature([User, Profile, Logs, Roles]),
+    PassportModule,
+    jwtModule,
+  ],
   controllers: [UserController],
   providers: [UserService, LocalStorage, JwtStorage],
   exports: [jwtModule],

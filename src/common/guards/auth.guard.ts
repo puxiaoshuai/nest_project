@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
-    console.log('user权限',req);
+    console.log('user权限', req);
     //这里面验证 token
     return true;
   }

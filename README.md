@@ -115,3 +115,12 @@ https://nest.nodejs.cn/guards#%E4%B8%BA%E6%AF%8F%E4%B8%AA%E5%A4%84%E7%90%86%E7%A
 2.用户登录时，对password进行 bcryptjs 解密，然后和数据库中的password进行对比。成功返回user
 2.1在返回user的同时，使用 password.js  local策略 对 user(id,username,role)的信息提取，产生token
 3.使用 password.js 的jwt策略，对接口添加   @UseGuards(AuthGuard('jwt')) 守卫，内部会根据 token进行验证，如果验证成功，则返回user，并执行请求
+
+Authorization  Bearer xxxxxxx
+### 数据库设计范式
+需求分析- 逻辑设计-数据库创建-维护和优化
+
+用户系统
+权限系统
+
+### typeorm联合查询

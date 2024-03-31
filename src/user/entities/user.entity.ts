@@ -4,9 +4,14 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { Logs } from '../../logs/logs.entity';
+import { Roles } from '../../roles/roles.entity';
 
 export enum USER_ROLE {
   ROOT = 'root',
@@ -36,8 +41,14 @@ export class User {
   ctime: number;
   @Column({ type: 'bigint' })
   utime: number;
+
   @BeforeInsert()
   async encryptPwd() {
     this.password = await bcrypt.hashSync(this.password, 10);
   }
+  @OneToMany(() => Logs, (logs) => logs.user)
+  logs: Logs[];
+  @ManyToMany(() => Roles, (roles) => roles.users)
+  @JoinTable({ name: 'users_roles' })
+  roles: Roles[];
 }
