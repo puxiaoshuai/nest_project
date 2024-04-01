@@ -8,12 +8,12 @@ import { LocalStorage } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStorage } from './jwt.strategy';
 import { Profile } from './entities/profile.entity';
-import { Logs } from '../logs/logs.entity';
+import { Logs } from '../userlogs/userlogs.entity';
 import { Roles } from '../roles/roles.entity';
 
 const jwtModule = JwtModule.register({
   secret: 'puxiaoshuai',
-  signOptions: { expiresIn: '1m' },
+  signOptions: { expiresIn: '1h' },
 });
 // imports,controllers,providers,exports的区别?
 @Module({

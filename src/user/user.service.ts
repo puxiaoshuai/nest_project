@@ -33,8 +33,12 @@ export class UserService {
     const userQuery = this.userRepository.createQueryBuilder('user');
     const count = await userQuery.getCount();
     const { pageNum = 1, pageSize = 2, ...params } = query;
+    userQuery.innerJoin('user.logs', 'logs') //联合查询出 log日志
+    
+    
     userQuery.limit(pageSize);
     userQuery.offset(pageSize * (pageNum - 1));
+    
     const users = await userQuery.getMany();
     return {
       data: { list: users, total: count },

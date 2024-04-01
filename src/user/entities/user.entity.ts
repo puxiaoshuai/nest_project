@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { Logs } from '../../logs/logs.entity';
+import { Logs } from '../../userlogs/userlogs.entity';
 import { Roles } from '../../roles/roles.entity';
 
 export enum USER_ROLE {
@@ -48,6 +48,7 @@ export class User {
   }
   @OneToMany(() => Logs, (logs) => logs.user)
   logs: Logs[];
+  
   @ManyToMany(() => Roles, (roles) => roles.users)
   @JoinTable({ name: 'users_roles' })
   roles: Roles[];

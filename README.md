@@ -123,4 +123,17 @@ Authorization  Bearer xxxxxxx
 用户系统
 权限系统
 
-### typeorm联合查询
+### typeorm联合查询 区别
+innerJoin
+leftJoin
+leftJoinAndSelect
+leftJoinAndMapMany
+leftJoinAndMapOne
+
+###  权限管理
+ACL权限控制
+ACL 中每个用户  ，user1 =[权限1，权限2，权限3] use2 =[权限3]  也就是 用户直接绑定权限
+RBAC的区别 
+user1 -> 角色1-> [权限1，权限2，权限3]   user2-> 角色2-> [权限3] 角色是权限的集合
+
+举例比较：如果管理员权限有访问A、B、C的权限，在某一天，需要给管理员增加D的权限。在ACL中，存在管理员用户1，2，3，则需要分别给用户1，2，3添加访问D的权限。而在RBAC中，只需要给管理员这一角色添加D的权限。
